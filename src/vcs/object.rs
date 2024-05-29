@@ -26,3 +26,26 @@ pub fn create_tree_object(repo_path: &Path, index: &[String]) -> String {
 
     write_object(repo_path, &tree_data)
 }
+
+pub fn read_commit_tree(repo_path: &Path, commit_hash: &str) -> Vec<(String, String)> {
+    let commit_path = repo_path.join("objects").join(&commit_hash[..2]).join(&commit_hash[2..]);
+    let commit_content = fs::read_to_string(commit_path).expect("Não foi possível ler o commit");
+    let mut lines = commit_content.lines();
+
+    let tree_line = lines.find(|line| line.starts_with("tree ")).expect("Commit sem árvore");
+    let tree_hash = &tree_line[5..];
+
+    read_tree(repo_path, tree_hash)
+}
+
+fn read_tree(repo_path: &Path, tree_hash: &str) -> Vec<(String, String)> {
+    let tree_path = repo_path.join("objects").join(&tree_hash[..2]).join(&tree_hash[2..]);
+    let tree_content = fs::read_to_string(tree_path).expect("Não foi possível ler a árvore");
+    
+    tree_content.lines().map(|line| {
+        let parts: Vec<&str> = line.split_whitespace().collect();
+        let hash = parts[0].to_string();
+        let path = parts[1].to_string();
+        (path, hash)
+    }).collect()
+}
