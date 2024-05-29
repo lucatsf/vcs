@@ -49,3 +49,27 @@ fn read_tree(repo_path: &Path, tree_hash: &str) -> Vec<(String, String)> {
         (path, hash)
     }).collect()
 }
+
+pub fn read_commit(repo_path: &Path, commit_hash: &str) -> (String, Option<String>) {
+    let commit_path = repo_path.join("objects").join(&commit_hash[..2]).join(&commit_hash[2..]);
+    let commit_content = fs::read_to_string(commit_path).expect("Não foi possível ler o commit");
+
+    let mut lines = commit_content.lines();
+    let mut message = String::new();
+    let mut parent = None;
+
+    for line in lines.by_ref() {
+        if line.starts_with("parent ") {
+            parent = Some(line[7..].to_string());
+        } else if line.trim().is_empty() {
+            break;
+        }
+    }
+
+    for line in lines {
+        message.push_str(line);
+        message.push('\n');
+    }
+
+    (message.trim().to_string(), parent)
+}

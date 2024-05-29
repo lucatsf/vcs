@@ -27,6 +27,7 @@ fn main() {
             commands::commit::commit(&args[2]);
         },
         "status" => commands::status::status(),
+        "log" => commands::log::log(),
         _ => eprintln!("Comando não reconhecido."),
     }
 }
