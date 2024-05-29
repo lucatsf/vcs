@@ -8,7 +8,7 @@ use crate::vcs::object::read_commit_tree;
 pub fn status() {
     let repo_path = get_repo_path();
     if !repo_path.exists() {
-        eprintln!("Repositório não inicializado.");
+        eprintln!("Uninitialized repository.");
         return;
     }
 
@@ -17,11 +17,11 @@ pub fn status() {
 
     let head_path = repo_path.join("HEAD");
     if !head_path.exists() {
-        eprintln!("Nenhum commit encontrado.");
+        eprintln!("No commits found.");
         return;
     }
 
-    let head_content = fs::read_to_string(&head_path).expect("Não foi possível ler o HEAD");
+    let head_content = fs::read_to_string(&head_path).expect("Unable to read HEAD");
     let commit_hash = head_content.trim();
     let committed_files = read_commit_tree(&repo_path, commit_hash);
 
@@ -37,7 +37,7 @@ pub fn status() {
             deleted_files.push(file.clone());
             continue;
         }
-        let current_hash = calculate_file_hash(path).expect("Não foi possível calcular o hash do arquivo");
+        let current_hash = calculate_file_hash(path).expect("Unable to calculate file hash");
         if !committed_files_set.contains(&(file.clone(), current_hash.clone())) {
             modified_files.push(file.clone());
         }
@@ -49,8 +49,8 @@ pub fn status() {
         }
     }
 
-    for entry in fs::read_dir(".").expect("Não foi possível ler o diretório de trabalho") {
-        let entry = entry.expect("Erro ao ler a entrada do diretório");
+    for entry in fs::read_dir(".").expect("Unable to read working directory") {
+        let entry = entry.expect("Error reading directory entry");
         let path = entry.path();
         if path.is_file() {
             let file_str = path.to_str().unwrap().to_string();
@@ -61,35 +61,35 @@ pub fn status() {
     }
 
     if !new_files.is_empty() {
-        println!("Novos arquivos:");
-        for file in new_files {
+        println!("New files:");
+        for file in &new_files {
             println!("  {}", file);
         }
     }
 
     if !modified_files.is_empty() {
-        println!("Arquivos modificados:");
-        for file in modified_files {
+        println!("Modified files:");
+        for file in &modified_files {
             println!("  {}", file);
         }
     }
 
     if !deleted_files.is_empty() {
-        println!("Arquivos deletados:");
-        for file in deleted_files {
+        println!("Deleted files:");
+        for file in &deleted_files {
             println!("  {}", file);
         }
     }
 
     if new_files.is_empty() && modified_files.is_empty() && deleted_files.is_empty() {
-        println!("Nada a commitar, diretório de trabalho limpo.");
+        println!("Nothing to commit, clean working directory.");
     }
 }
 
 fn calculate_file_hash(path: &Path) -> Option<String> {
     use sha1::{Sha1, Digest};
     use std::fs::File;
-    use std::io::{self, Read};
+    use std::io::{Read};
 
     let mut file = File::open(path).ok()?;
     let mut hasher = Sha1::new();
