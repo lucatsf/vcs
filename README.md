@@ -2,7 +2,7 @@
 ![image](https://github.com/lucatsf/vcs/assets/18267941/9fe884f9-ef77-41eb-a2df-fa6e0d854d8e)
 
 ```bash
-simplified_vcs/
+vcs/
 ├── src/
 │   ├── commands/
 │   │   ├── init.rs
