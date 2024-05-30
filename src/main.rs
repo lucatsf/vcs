@@ -28,6 +28,20 @@ fn main() {
         },
         "status" => commands::status::status(),
         "log" => commands::log::log(),
+        "branch" => {
+            if args.len() < 3 {
+                eprintln!("Usage: vcs branch <branch_name>");
+                return;
+            }
+            commands::branch::branch(&args[2]);
+        },
+        "checkout" => {
+            if args.len() < 3 {
+                eprintln!("Usage: vcs checkout <branch_name>");
+                return;
+            }
+            commands::checkout::checkout(&args[2]);
+        },
         _ => eprintln!("Comando não reconhecido."),
     }
 }
