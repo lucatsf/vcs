@@ -42,6 +42,8 @@ fn main() {
             }
             commands::checkout::checkout(&args[2]);
         },
+        "current-branch" => commands::current_branch::current_branch(),
+        "list-branches" => commands::list_branches::list_branches(),
         _ => eprintln!("Comando não reconhecido."),
     }
 }

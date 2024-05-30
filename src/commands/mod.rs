@@ -5,3 +5,5 @@ pub mod log;
 pub mod status;
 pub mod branch;
 pub mod checkout;
+pub mod current_branch;
+pub mod list_branches;
