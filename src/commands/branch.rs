@@ -14,7 +14,6 @@ pub fn branch(branch_name: &str) {
         return;
     }
 
-    let commit_hash = fs::read_to_string(&head_path).expect("Não foi possível ler o HEAD").trim().to_string();
     let branches_dir = repo_path.join("refs").join("heads");
 
     // Garantindo que o diretório de branches exista
@@ -28,6 +27,12 @@ pub fn branch(branch_name: &str) {
         return;
     }
 
-    fs::write(branch_path, commit_hash).expect("Não foi possível criar a branch");
+    let commit_hash = fs::read_to_string(&head_path).expect("Não foi possível ler o HEAD").trim().to_string();
+
+    // Atualizando o arquivo HEAD para apontar para a nova branch
+    fs::write(&head_path, format!("ref: refs/heads/{}", branch_name)).expect("Não foi possível atualizar o HEAD");
+
+    // Criando o arquivo da nova branch com o hash do último commit
+    fs::write(&branch_path, commit_hash).expect("Não foi possível criar a branch");
     println!("Branch '{}' criada com sucesso.", branch_name);
 }
