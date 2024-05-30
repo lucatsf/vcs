@@ -1,5 +1,6 @@
 # vcs
-![image](https://github.com/lucatsf/vcs/assets/18267941/9fe884f9-ef77-41eb-a2df-fa6e0d854d8e)
+![vcs](https://github.com/lucatsf/vcs/assets/18267941/5679172a-e196-450c-91eb-c7ce84fcc45e)
+
 
 Um sistema de controle de versão simplificado, escrito em Rust, que suporta operações básicas como `init`, `add`, `commit`, `log`, `status`, `branch`, `checkout`, `current_branch` e `list_branches`.
 
