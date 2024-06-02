@@ -21,8 +21,8 @@ Um sistema de controle de versão simplificado, escrito em Rust, que suporta ope
 1. Certifique-se de ter o [Rust](https://www.rust-lang.org/) instalado.
 2. Clone este repositório:
     ```sh
-    git clone https://github.com/seu-usuario/simplified_vcs.git
-    cd simplified_vcs
+    git clone https://github.com/seu-usuario/vcs.git
+    cd vcs
     ```
 3. Compile o projeto:
     ```sh
